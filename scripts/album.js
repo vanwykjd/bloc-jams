@@ -28,6 +28,21 @@ var albumMarconi = {
     ]
 };
 
+var albumForAssignment = {
+    title: 'Assignment 25',
+    artist: 'Josh Van Wyk',
+    label: 'Bloc',
+    year: '2016',
+    albumArtUrl: 'assets/images/album_covers/09.png',
+    songs: [
+        { title: 'Create and Link the JavaScript File', duration: '1:00' },
+        { title: 'Remove Static Elements', duration: '2:00' },
+        { title: 'Create Album Objects', duration: '3:00' },
+        { title: 'Song Row Content', duration: '4:00' },
+        { title: 'Set the Current Album', duration: '5:00' }
+    ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
     var template = 
         '<tr class="album-view-song-item">'
@@ -40,14 +55,13 @@ var createSongRow = function(songNumber, songName, songLength) {
     return template;
 };
 
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
 var setCurrentAlbum = function(album) {
-    
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
-    
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
     albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
@@ -58,8 +72,21 @@ var setCurrentAlbum = function(album) {
     for ( var i = 0; i < album.songs.length; i++ ) {
         albumSongList.innerHTML += createSongRow( i + 1, album.songs[i].title, album.songs[i].duration );
     }
+    
 };
+
 
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
+    
+    var albums = [albumPicasso, albumMarconi, albumForAssignment];
+    var i = 1;
+    
+    albumImage.addEventListener('click', function(event) {
+        setCurrentAlbum(albums[i]);
+        i++;
+        if ( i == albums.length) {
+            i = 0;
+        }
+    });
 };
